@@ -1,0 +1,106 @@
+/*
+ * Matan Gazit
+ * CS 4280
+ * 03/08/21
+ * fsa.cpp
+ */
+
+#include "fsa.h"
+#include <cctype>
+#include <string>
+#include <iostream>
+#include <iomanip>
+
+using namespace std; // for readability
+
+//PROTOTYPES
+int** initialize_table();
+
+//GLOBALS
+int** Table = initialize_table();
+
+//IMPLEMENTATION
+
+// Creates a new table
+int** initialize_table() {
+	int** Table = 0;
+	Table = new int*[FINAL+ 1];
+
+	for (int i = 0; i < FINAL + 1; i++) {
+			Table[i] = new int[INVALID + 1];
+	}	
+
+	for (int curr_state = 0; curr_state < FINAL; curr_state++) {
+		for (int curr_label = 0; curr_label < INVALID + 1; curr_label++) {
+			if (curr_state < EOF_STATE && curr_state > POSSIBLE_INTEGER) {
+				if (curr_label == WS) {
+					Table[curr_state][curr_label] = FINAL;
+				}
+				else if (curr_label == EOF_LABEL) {
+					Table[curr_state][curr_label] = EOF_STATE;
+				}
+				else if (curr_label == INVALID) {
+					Table[curr_state][curr_label] = FSA_ERROR_INVALID_CHAR;
+				}
+				else {
+					Table[curr_state][curr_label] = FSA_ERROR_INVALID_CHAR;
+				}
+			}
+		}
+	}
+
+	//UNIQUE CASES
+	//May need to edit these as errors arise throughout this project
+	
+	//INITIAL state
+	Table[INITIAL][WS] = INITIAL;
+	Table[INITIAL][LETTER] = POSSIBLE_IDENTIFIER;
+	Table[INITIAL][UNDERS] = POSSIBLE_IDENTIFIER;
+	Table[INITIAL][INTEGER] = POSSIBLE_INTEGER;
+	Table[INITIAL][EQUALS] = POSSIBLE_EQUALS;
+	Table[INITIAL][L_ANGLE] = FSA_ERROR_INVALID_CHAR;
+	Table[INITIAL][R_ANGLE] = FSA_ERROR_INVALID_CHAR;
+	Table[INITIAL][COLON] = POSSIBLE_COLON;
+	Table[INITIAL][PLUS] = POSSIBLE_ADD;
+	Table[INITIAL][MINUS] = POSSIBLE_SUBT;
+	Table[INITIAL][MULT] = POSSIBLE_MULT;
+	Table[INITIAL][DIV] = POSSIBLE_DIV;
+	Table[INITIAL][MOD] = POSSIBLE_MOD;
+	Table[INITIAL][DOT] = POSSIBLE_DOT;
+	Table[INITIAL][L_PAREN] = POSSIBLE_L_PAREN;
+	Table[INITIAL][R_PAREN] = POSSIBLE_R_PAREN;
+	Table[INITIAL][COMMA] = POSSIBLE_COMMA;
+	Table[INITIAL][L_CURLY] = POSSIBLE_L_CURLY;
+	Table[INITIAL][R_CURLY] = POSSIBLY_R_CURLY;
+	Table[INITIAL][SEMI] = POSSIBLE_SEMI_COLON;
+	Table[INITIAL][L_SQUARE] = POSSIBLE_L_SQUARE;
+	Table[INITIAL][R_SQUARE] = POSSIBLE_R_SQUARE;
+	Table[INITIAL][EOF_LABEL] = EOF_STATE;
+	Table[INITIAL][INVALID] = FSA_ERROR_INVALID_CHAR;
+
+	Table[POSSIBLE_IDENTIFIER][WS] = FINAL;
+	Table[POSSIBLE_IDENTIFIER][LETTER] =  POSSIBLE_IDENTIFIER;
+	Table[POSSIBLE_IDENTIFIER][INTEGER] = POSSIBLE_IDENTIFIER;
+	Table[POSSIBLE_IDENTIFIER][UNDERS] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][EQUALS] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][L_ANGLE] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][R_ANGLE] = FSA_ERROR_INVALID_CHARR;
+	Table[POSSIBLE_IDENTIFIER][COLON] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][ADD] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][SUBT] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][MULT] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][DIV] = FSA_ERROR_INVALID_CHAR;;
+	Table[POSSIBLE_IDENTIFIER][MOD] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][DOT] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][L_PAREN] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][R_PAREN] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][COMMA] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][L_CURLY] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][R_CURLY] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][SEMI] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][L_SQUARE] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][R_SQUARE] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][EOF_LABEL] = EOF_STATE;
+	Table[POSSIBLE_IDENTIFIER][INVALID] = FSA_ERROR_INVALID_CHAR;
+
+}
