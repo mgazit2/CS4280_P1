@@ -50,8 +50,8 @@ enum label {
 	L_ANGLE, // <
 	R_ANGLE, // >
 	COLON, // :
-	PLUS, // +
-	MINUS, // -
+	ADD, // +
+	SUBT, // -
 	MULT, // *
 	DIV, // /
 	MOD, // %
