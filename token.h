@@ -15,48 +15,48 @@ using namespace std; // for readability
 
 enum tokenID {
 	//Standard Tokens
-	ident_tk; // identifier token
-	num_tk; // number token
-	unders_tk; // underscore
-	eof_tk; // end of file token
+	ident_tk, // identifier token
+	num_tk, // number token
+	unders_tk, // underscore
+	eof_tk, // end of file token
 
 	//Keyword Tokens
-	begin_tk;
-	end_tk;
-	whole_tk;
-	loop_tk;
-	void_tk;
-	getter_tk;
-	outter_tk;
-	exit_tk;
-	main_tk;
-	if_tk;
-	then_tk;
-	assign_tk;
-	data_tk;
-	proc_tk;
+	begin_tk,
+	end_tk,
+	whole_tk,
+	loop_tk,
+	void_tk,
+	getter_tk,
+	outter_tk,
+	exit_tk,
+	main_tk,
+	if_tk,
+	then_tk,
+	assign_tk,
+	data_tk,
+	proc_tk,
 
 	//Operator Tokens
-	equals_tk;
-	greater_than_tk;
-	less_than_tk;
-	equality_tk;
-	colon_tk;
-	assignment_tk;
-	plus_tk;
-	minus_tk;
-	mult_tk;
-	div_tk;
-	mod_tk;
-	dot_tk;
-	l_paren_tk;
-	r_paren_tk;
-	comma_tk;
-	l_curly_tk;
-	r_curly_tk;
-	semi_colon_tk;
-	l_square_tk;
-	r_square_tk;
+	equals_tk,
+	greater_than_tk,
+	less_than_tk,
+	equality_tk,
+	colon_tk,
+	assignment_tk,
+	plus_tk,
+	minus_tk,
+	mult_tk,
+	div_tk,
+	mod_tk,
+	dot_tk,
+	l_paren_tk,
+	r_paren_tk,
+	comma_tk,
+	l_curly_tk,
+	r_curly_tk,
+	semi_colon_tk,
+	l_square_tk,
+	r_square_tk,
 };
 
 const string tokenNames[] = {

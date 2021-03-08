@@ -11,4 +11,4 @@ fsa_table.o: fsa.cpp fsa.h
 	g++ -c fsa.cpp
 
 clean:
-	rm -rf scan *.o
+	rm -rf scanner *.o

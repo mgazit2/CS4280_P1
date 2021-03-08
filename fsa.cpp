@@ -197,7 +197,118 @@ label get_label(char c) {
 	else if (isdigit(c)) {
 		return INTEGER;
 	}
-	else if (c == '') {
-		return 
+	else if (c == '=') {
+		return EQUALS;
 	}
+	else if (c == '_') {
+		return UNDERS; 
+	}
+	else if (c == '<') {
+		return L_ANGLE;
+	}
+	else if (c == '>') {
+		return R_ANGLE;
+	}
+	else if (c == ':') {
+		return COLON;
+	}
+	else if (c == '+') {
+		return ADD;
+	}
+	else if (c == '-') {
+		return SUBT;
+	}
+	else if (c == '*') {
+		return MULT;
+	}
+	else if (c == '/') {
+		return DIV;
+	}
+	else if (c == '%') {
+		return MOD;
+	}
+	else if (c == '.') {
+		return DOT;
+	}
+	else if (c == '(') {
+		return L_PAREN;
+	}
+	else if (c == ')') {
+		return R_PAREN;
+	}
+	else if (c == ',') {
+		return COMMA;
+	}
+	else if (c == '{') {
+		return L_CURLY;
+	}
+	else if (c == '}') {
+		return R_CURLY;
+	}
+	else if (c == ';') {
+		return SEMI;
+	}
+	else if (c == '[') {
+		return L_SQUARE;
+	}
+	else if (c == ']') {
+		return R_SQUARE;
+	}
+	else if (c == char_traits<char>::eof()) {
+		return EOF_LABEL; 
+	}
+	else {
+		return INVALID;
+	}
+}
+
+void print_table() {
+	cout << setw(6) << " "
+		<< setw(6) << "WS"
+		<< setw(6) << "L"
+		<< setw(6) << "INT"
+		<< setw(6) << "_"
+		<< setw(6) << "="
+		<< setw(6) << "<"
+		<< setw(6) << ">"
+		<< setw(6) << ":"
+		<< setw(6) << "+"
+		<< setw(6) << "-"
+		<< setw(6) << "*"
+		<< setw(6) << "/"
+		<< setw(6) << "%"
+		<< setw(6) << "."
+		<< setw(6) << "("
+		<< setw(6) << ")"
+		<< setw(6) << ","
+		<< setw(6) << "{"
+		<< setw(6) << "}"
+		<< setw(6) << ";"
+		<< setw(6) << "["
+		<< setw(6) << "]"
+		<< setw(6) << "EOF"
+		<< setw(6) << "INV"
+		<< endl;
+
+		for (int i = 0; i < FINAL + 1; i++) {
+		 	cout << setw(6) << i;
+		 	for (int j = 0; j < INVALID + 1; j++) {
+		 		int curr_state = Table[i][j];
+
+		 		if(curr_state == FINAL) {
+		 			cout << setw(6) << 'F';
+		 		}
+		 		else if(curr_state == -1) {
+		 			cout << setw(6) << "ERR";
+		 		}
+		 		else {
+		 			cout << setw(6) << curr_state;
+		 		}
+		 	} 
+			cout << endl;
+		}
+		cout << endl;
+		cout << "ERR: Invalid character input detected by the scanner in the FSA" << endl;
+		cout << "F: Final State" << endl;
+		cout << endl;		
 }

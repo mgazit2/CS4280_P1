@@ -73,6 +73,6 @@ extern int ** Table; // returns number of possible values
 
 void print_table(); // prints table for debugging purposes
 
-label getNewLabel(char c); // fetches a label for scanner character
+label get_label(char c); // fetches a label for scanner character
 
 #endif
