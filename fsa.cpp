@@ -57,6 +57,7 @@ int** initialize_table() {
 	Table[INITIAL][LETTER] = POSSIBLE_IDENTIFIER;
 	Table[INITIAL][UNDERS] = POSSIBLE_IDENTIFIER;
 	Table[INITIAL][INTEGER] = POSSIBLE_INTEGER;
+	Table[INITIAL][COMMENT] = POSSIBLE_COMMENT;
 	Table[INITIAL][EQUALS] = POSSIBLE_EQUALS;
 	Table[INITIAL][L_ANGLE] = FSA_ERROR_INVALID_CHAR;
 	Table[INITIAL][R_ANGLE] = FSA_ERROR_INVALID_CHAR;
@@ -82,6 +83,7 @@ int** initialize_table() {
 	Table[POSSIBLE_IDENTIFIER][LETTER] =  POSSIBLE_IDENTIFIER;
 	Table[POSSIBLE_IDENTIFIER][INTEGER] = POSSIBLE_IDENTIFIER;
 	Table[POSSIBLE_IDENTIFIER][UNDERS] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_IDENTIFIER][COMMENT] = FSA_ERROR_INVALID_CHAR;
 	Table[POSSIBLE_IDENTIFIER][EQUALS] = FSA_ERROR_INVALID_CHAR;
 	Table[POSSIBLE_IDENTIFIER][L_ANGLE] = FSA_ERROR_INVALID_CHAR;
 	Table[POSSIBLE_IDENTIFIER][R_ANGLE] = FSA_ERROR_INVALID_CHAR;
@@ -107,6 +109,7 @@ int** initialize_table() {
 	Table[POSSIBLE_INTEGER][LETTER] =  FSA_ERROR_INVALID_CHAR;
 	Table[POSSIBLE_INTEGER][INTEGER] = POSSIBLE_INTEGER;
 	Table[POSSIBLE_INTEGER][UNDERS] = FSA_ERROR_INVALID_CHAR;
+	Table[POSSIBLE_INTEGER][COMMENT] = FSA_ERROR_INVALID_CHAR;
 	Table[POSSIBLE_INTEGER][EQUALS] = FSA_ERROR_INVALID_CHAR;
 	Table[POSSIBLE_INTEGER][L_ANGLE] = FSA_ERROR_INVALID_CHAR;
 	Table[POSSIBLE_INTEGER][R_ANGLE] = FSA_ERROR_INVALID_CHAR;
@@ -128,16 +131,21 @@ int** initialize_table() {
 	Table[POSSIBLE_INTEGER][EOF_LABEL] = EOF_STATE;
 	Table[POSSIBLE_INTEGER][INVALID] = FSA_ERROR_INVALID_CHAR;
 
+	Table[POSSIBLE_EQUALS][WS] = FINAL; // probably already part of the above algorithm, but felt right to put here
 	Table[POSSIBLE_EQUALS][EQUALS] = POSSIBLE_EQUALITY;
 	Table[POSSIBLE_EQUALS][L_ANGLE] = POSSIBLE_LESS_THAN;
 	Table[POSSIBLE_EQUALS][R_ANGLE] = POSSIBLE_GREATER_THAN;
 
 	Table[POSSIBLE_COLON][EQUALS] = POSSIBLE_ASSIGNMENT;
 
+	Table[POSSIBLE_COMMENT][COMMENT] = FINAL; // scanner will ignore all future states until the next final comment
+
 	Table[EOF_STATE][WS] = FINAL;
 	Table[EOF_STATE][LETTER] = FINAL;
+	Table[EOF_STATE][COMMENT] = FINAL;
 	Table[EOF_STATE][INTEGER] = FINAL;
 	Table[EOF_STATE][UNDERS] = FINAL;
+	Table[EOF_STATE][COMMENT] = FINAL;
 	Table[EOF_STATE][EQUALS] = FINAL;
 	Table[EOF_STATE][L_ANGLE] = FINAL;
 	Table[EOF_STATE][R_ANGLE] = FINAL;
@@ -163,6 +171,7 @@ int** initialize_table() {
 	Table[FINAL][LETTER] = POSSIBLE_IDENTIFIER;
 	Table[FINAL][INTEGER] = POSSIBLE_INTEGER;
 	Table[FINAL][UNDERS] = POSSIBLE_IDENTIFIER;
+	Table[FINAL][COMMENT] = POSSIBLE_COMMENT;
 	Table[FINAL][EQUALS] = POSSIBLE_EQUALS;
 	Table[FINAL][L_ANGLE] = FSA_ERROR_INVALID_CHAR;
 	Table[FINAL][R_ANGLE] = FSA_ERROR_INVALID_CHAR;
@@ -188,6 +197,8 @@ int** initialize_table() {
 }
 
 label get_label(char c) {
+
+	//Base symbol cases
 	if (isspace(c)) {
 		return WS;
 	}
@@ -197,6 +208,7 @@ label get_label(char c) {
 	else if (isdigit(c)) {
 		return INTEGER;
 	}
+	//Unique symbol cases
 	else if (c == '=') {
 		return EQUALS;
 	}
@@ -223,6 +235,9 @@ label get_label(char c) {
 	}
 	else if (c == '/') {
 		return DIV;
+	}
+	else if (c == '$') {
+		return COMMENT;
 	}
 	else if (c == '%') {
 		return MOD;
@@ -263,11 +278,13 @@ label get_label(char c) {
 }
 
 void print_table() {
+	// this... is not actually in the right order...
 	cout << setw(6) << " "
 		<< setw(6) << "WS"
 		<< setw(6) << "L"
 		<< setw(6) << "INT"
 		<< setw(6) << "_"
+		<< setw(6) << "$"
 		<< setw(6) << "="
 		<< setw(6) << "<"
 		<< setw(6) << ">"

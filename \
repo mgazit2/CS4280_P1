@@ -55,42 +55,36 @@ token scanner(ifstream& file) {
 		
 		// comment loop check
 		if (curr_state == POSSIBLE_COMMENT && next_state == FINAL) {
-			cout << "Found comment block" << endl;	
+			
 			// ready variables for comment loop entry
-			curr_state = next_state;
+			curr_state = INITIAL;
 			_last_char = _c;
 			_c = file.get();
 			curr_label = get_label(_c);
-			next_state = Table[curr_state][curr_label];
+			//next_state = Table[curr_state][curr_label];
 
 			// comment loop continues till another 'FINAL' 'POSSIBLE_COMMENT' state is found
-			while (curr_state != POSSIBLE_COMMENT && next_state != FINAL) {
+			while (curr_state != POSSIBLE_COMMENT) {
 				cout << "In the comment loop" << endl;
 				
-				//curr_label = get_label(_c);
+				curr_label = get_label(_c);
 				if (_last_char == '\n') _curr_line++; // line tracking continues while in comment loop
-				
 				next_state = Table[curr_state][curr_label];
-				
-				cout << "Next State is: " << next_state << endl;
 
-				if (next_state == FSA_ERROR_INVALID_CHAR) next_state = INITIAL;
-				
 				curr_state = next_state;
 				_last_char = _c;
 				_c = file.get();
-				curr_label = get_label(_c);
+				//curr_label = get_label(_c);
 				//next_state = Table[curr_state][curr_label];
 				
 			} // end comment loop
 
 			// update variables accordingly before continuing scanner loop
 			cout << "Out of comment loop" << endl;
-			curr_state = INITIAL;
-			//_last_char = _c;
-			//_c = file.get();
-			//curr_label = get_label(_c);
-			curr_word = "";
+			curr_state = next_state;
+			_last_char = _c;
+			_c = file.get();
+			curr_label = get_label(_c);
 			continue; // leave this block and continue the loop			
 
 		} // end comment if block
@@ -167,7 +161,7 @@ token scanner(ifstream& file) {
 token gen_token(int state, string word, int line) {
 
 	token t;
-	cout << "Current state in gen_token() is: " << state << endl << endl;
+
 	switch (state) {
 		case POSSIBLE_IDENTIFIER:
 			// check for keyword here
@@ -260,10 +254,6 @@ token gen_token(int state, string word, int line) {
 			t.id = r_square_tk;
                         t.token_instance = token_names[t.id];           
                         break;
-		case POSSIBLE_EQUALITY:
-			t.id = equality_tk;
-			t.token_instance = token_names[t.id];
-			break;
 		case EOF_STATE:
 			t.id = eof_tk;
 			t.token_instance = token_names[t.id];

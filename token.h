@@ -13,12 +13,13 @@
 
 using namespace std; // for readability
 
-enum tokenID {
+enum token_ID {
 	//Standard Tokens
 	ident_tk, // identifier token
 	num_tk, // number token
+	eof_tk,
 	unders_tk, // underscore
-	eof_tk, // end of file token
+	comment_tk, // comment token
 
 	//Keyword Tokens
 	begin_tk,
@@ -43,8 +44,8 @@ enum tokenID {
 	equality_tk,
 	colon_tk,
 	assignment_tk,
-	plus_tk,
-	minus_tk,
+	add_tk,
+	subt_tk,
 	mult_tk,
 	div_tk,
 	mod_tk,
@@ -59,9 +60,11 @@ enum tokenID {
 	r_square_tk,
 };
 
-const string tokenNames[] = {
+// used later for naming tokens, must be in the same order as token_ID enums
+const string token_names[] = {
 	"Identifier", "Number",
 	"End of file", "Begin-KW",
+	"Underscore", "Comment",
 	"End-KW", "Whole-KW",
 	"Loop-KW", "Void-KW",
 	"Getter-KW", "Outter-KW",
@@ -71,19 +74,19 @@ const string tokenNames[] = {
 	"Proc-KW", "Equals-OP",
 	"Greater-Than-OP", "Less-Than-OP",
 	"Equality-OP", "Colon-OP",
-	"Assignment-OP", "Plus-OP",
-	"Minus-OP", "Mult-OP",
+	"Assignment-OP", "Add-OP",
+	"Subt-OP", "Mult-OP",
 	"Div-OP", "Mod-OP",
 	"Dot-OP", "L-Paren-OP",
 	"R-Paren-OP", "Comma-OP",
 	"L-Curly-OP", "R-Curly-OP",
 	"Semi-Colon-OP", "L-Square-OP",
-	"R-Square-OP", "Unders-KW"
+	"R-Square-OP",
 };
 
 typedef struct token {
-	tokenID id;
-	string tokenInstance;
+	token_ID id;
+	string token_instance;
 	int line;
 } token;
 	

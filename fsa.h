@@ -15,6 +15,7 @@ enum pos_state {
 	INITIAL,
 	POSSIBLE_IDENTIFIER,
 	POSSIBLE_INTEGER,
+	POSSIBLE_COMMENT, // comment tag at beginning and end of line, $$ 
 	POSSIBLE_EQUALS,
 	POSSIBLE_GREATER_THAN,
 	POSSIBLE_LESS_THAN,
@@ -46,6 +47,7 @@ enum label {
 	WS, // /t /n ' '
 	LETTER, // a-z A-Z
 	INTEGER, // 0-9
+	COMMENT, // $
 	EQUALS, // =
 	L_ANGLE, // <
 	R_ANGLE, // >
