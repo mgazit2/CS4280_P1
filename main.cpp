@@ -7,6 +7,7 @@
 
 #include "fsa.h"
 #include "scanner.h"
+#include "testScanner.h"
 #include "token.h"
 #include <cstdlib>
 #include <fstream>
@@ -57,7 +58,7 @@ int main (int argc, char** argv) {
 	}
 	
 	print_table();
-	scanner(data_file);
-
+	//scanner(data_file);
+	test_scanner(data_file);
 	return 0;
 }

@@ -107,7 +107,7 @@ token scanner(ifstream& file) {
 			cout << "Token ID: " << tk.id << endl;
 			cout << "Token Instance: " << tk.token_instance << endl;
 			cout << "Token Line: " << tk.line << endl;
-			//return gen_token(curr_state, curr_word, _curr_line);
+			return gen_token(curr_state, curr_word, _curr_line);
 			curr_word = ""; // reset word variable
 
 		}
@@ -123,7 +123,7 @@ token scanner(ifstream& file) {
                         	cout << "Token ID: " << tk.id << endl;
                         	cout << "Token Instance: " << tk.token_instance << endl;
                         	cout << "Token Line: " << tk.line << endl;
-				//return gen_token(curr_state, curr_word, _curr_line);
+				return gen_token(curr_state, curr_word, _curr_line);
 				curr_word = ""; // reset word variable
 			
 			}
