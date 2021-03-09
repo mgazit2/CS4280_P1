@@ -23,13 +23,14 @@ int** Table = initialize_table();
 
 // Creates a new table
 int** initialize_table() {
-	int** Table = 0;
-	Table = new int*[FINAL+ 1];
+	int** Table = 0; // double pointer for double the dimensions
+	Table = new int*[FINAL+ 1]; // allocate necessary amount of memory for 'Table'
 
 	for (int i = 0; i < FINAL + 1; i++) {
 			Table[i] = new int[INVALID + 1];
 	}	
-
+	
+	// for loop is designed to fill in the FSA table with default values before manually adding the unique states
 	for (int curr_state = 0; curr_state < FINAL; curr_state++) {
 		for (int curr_label = 0; curr_label < INVALID + 1; curr_label++) {
 			if (curr_state < EOF_STATE && curr_state > POSSIBLE_INTEGER) {
@@ -277,6 +278,8 @@ label get_label(char c) {
 	}
 }
 
+// this does not work properly, I found out
+// taken directly from reference in readme
 void print_table() {
 	// this... is not actually in the right order...
 	cout << setw(6) << " "

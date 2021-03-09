@@ -2,6 +2,7 @@
  * Matan Gazit
  * CS 4280
  * 03/08/21
+ * scanner.cpp
  */
 
 #include "scanner.h"
@@ -20,7 +21,6 @@ token gen_token(int state, string word, int line);
 token_ID check_for_kw(string word);
 
 //GLOBALS
-//const char COMMENT_CHAR = '$';
 const int kw_num = 14; // number of keywords our language uses
 const string kw_constructor[] = { 
 	"begin", "end",
@@ -33,6 +33,7 @@ const string kw_constructor[] = {
 };
 const vector<string> key_words(kw_constructor, kw_num + kw_constructor); // easier to look through a cpp vector than a simple array
 									 // vectors have a number of different unique method implmenetations
+									 // found in <algorithm>
 								
 //SCANNER IMPLEMENTATION
 token scanner(ifstream& file) {
@@ -55,7 +56,7 @@ token scanner(ifstream& file) {
 		
 		// comment loop check
 		if (curr_state == POSSIBLE_COMMENT && next_state == FINAL) {
-			cout << "Found comment block" << endl;	
+		
 			// ready variables for comment loop entry
 			curr_state = next_state;
 			_last_char = _c;
@@ -65,14 +66,10 @@ token scanner(ifstream& file) {
 
 			// comment loop continues till another 'FINAL' 'POSSIBLE_COMMENT' state is found
 			while (curr_state != POSSIBLE_COMMENT && next_state != FINAL) {
-				cout << "In the comment loop" << endl;
 				
-				//curr_label = get_label(_c);
 				if (_last_char == '\n') _curr_line++; // line tracking continues while in comment loop
 				
 				next_state = Table[curr_state][curr_label];
-				
-				cout << "Next State is: " << next_state << endl;
 
 				if (next_state == FSA_ERROR_INVALID_CHAR) next_state = INITIAL;
 				
@@ -85,13 +82,9 @@ token scanner(ifstream& file) {
 			} // end comment loop
 
 			// update variables accordingly before continuing scanner loop
-			cout << "Out of comment loop" << endl;
 			curr_state = INITIAL;
-			//_last_char = _c;
-			//_c = file.get();
-			//curr_label = get_label(_c);
 			curr_word = "";
-			continue; // leave this block and continue the loop			
+			continue; // leave this block and continue the loop 			
 
 		} // end comment if block
 
@@ -159,7 +152,8 @@ token scanner(ifstream& file) {
         cout << "Token ID: " << tk.id << endl;
         cout << "Token Instance: " << tk.token_instance << endl;
         cout << "Token Line: " << tk.line << endl;
-
+	
+	// returns end of file token
 	return gen_token(curr_state, "", _curr_line);
 	
 }
@@ -167,7 +161,6 @@ token scanner(ifstream& file) {
 token gen_token(int state, string word, int line) {
 
 	token t;
-	cout << "Current state in gen_token() is: " << state << endl << endl;
 	switch (state) {
 		case POSSIBLE_IDENTIFIER:
 			// check for keyword here
